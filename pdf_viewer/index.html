@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/build/pdf.min.js"></script>
+  </head>
+  <body>
+    <canvas id="my_canvas" <!-- width="600" height="600" -->
+      style="background-color: black" ></canvas
+    >
+    <!-- <meta
+      name="viewport"
+      id="view_port"
+      content="width=device-width, initial-scale=1.0"
+    /> -->
+
+    <script>
+      pdfjsLib.getDocument("./doc.pdf").promise.then(function (doc) {
+        console.log(doc._pdfInfo.numPages);
+        doc.getPage(1).then(function (page) {
+          var mycanvas = document.getElementById("my_canvas");
+          var context = mycanvas.getContext("2d");
+          // var viewport = document.getElementById("view_port");
+          var viewport = page.getViewport(1.5);
+          mycanvas.width = viewport.width;
+          mycanvas.height = viewport.height;
+          console.log(mycanvas.width);
+          console.log(mycanvas.height);
+
+          page.render({
+            canvasContext: context,
+            viewport: viewport,
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
